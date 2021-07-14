@@ -1,0 +1,14 @@
+<% if !!Cart.find_by(product_id: @product.id, user_id: current_user.id) %>
+    <%= render 'shared/updatecart' %>
+<% else %>
+    <%= form_with url: "/cart", method: :post, class: "addCartForm" do |form| %>
+        <div class="input-group my-2">
+            <%= form.hidden_field :user_id, value: current_user.id %>
+            <%= form.hidden_field :product_id, value: @product.id %>
+            <%= form.number_field :quantity, class: "form-control",
+                placeholder: "Enter quantity of the product",
+                in: 1.0..@product.stock, step: 1.0, required: true %>
+            <%= form.submit "Add to cart", class: "btn btn-outline-success" %>
+        </div>
+    <% end %>
+<% end %>

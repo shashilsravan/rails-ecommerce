@@ -1,0 +1,28 @@
+<div>
+    <h3> Cart items: <%= @items.count %> </h3>
+    <hr/>
+    <% total = 0 %>
+    <% @items.each do |item| %>
+        <div class="mb-5">
+            <h4> <%= link_to item.product.title , item.product %> </h4>
+            <h6> Quantity: <%= item.quantity %> </h6>
+            <h5> 
+                Price: 
+                <%= item.product.price %> * <%= item.quantity %>
+                = <strong> 
+                    <%= number_to_currency(item.product.price * item.quantity, unit: "₹") %> 
+                </strong>
+                <% total += (item.product.price * item.quantity) %>
+            </h5>
+            <%= form_with url: "/cart", method: :delete do |f| %>
+                <%= f.hidden_field :cart_id, value: item.id %>
+                <%= f.submit "Remove from cart", data: {confirm: "Are you sure to remove it from cart"},
+                    class: "btn btn-outline-danger" %>
+            <% end %>
+            <p class="text-muted mt-2">Added to cart <%= time_ago_in_words(item.created_at) %> ago </p>
+        </div>
+    <% end %>
+    <hr/>
+    <h3> Total price: ₹<%= total %>
+    </h3>
+</div>

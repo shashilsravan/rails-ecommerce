@@ -1,0 +1,37 @@
+<table id="productsTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Created at</th>
+        </tr>
+    </thead> 
+        <tbody>
+            <% @products.each do |product| %>
+                <tr>
+                    <td> <%= product.id %> </td>
+                    <td> <h6><%= product.title %></h6> </td>
+                    <td><h6><%= product.price %></h6></td>
+                    <td><h6><%= product.stock %></h6></td>
+                    <td><h6><%= time_ago_in_words(product.created_at) %></h6></td>
+                </tr>
+            <% end %>
+        </tbody>
+        <tfoot>
+             <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Created at</th>
+            </tr>
+        </tfoot>
+</table>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#productsTable').DataTable();
+} );
+</script>

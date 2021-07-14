@@ -1,0 +1,9 @@
+
+<h3 class="text-center">All Products</h3>
+  <%= render @products %>
+<br>
+
+<% if user_signed_in? && current_user.admin? %>
+  <%= link_to 'New Product', new_product_path, 
+    class: "btn btn-dark" %>
+<% end %>

@@ -1,0 +1,98 @@
+<h3 class="my-4"> <%= @product.title %> </h3>
+<div class="row">
+  <div class="col-md-4">
+    <% if @product.image.attached? %>
+      <%= image_tag @product.image, class: "image-fit p-2" %>
+    <% end %>
+  </div>
+
+  <div class="col-md-8">
+    <ul class="list-group">
+        <li class="list-group-item">
+           <strong> Product name: </strong> <%= @product.title %>
+        </li>
+        <li class="list-group-item px-4 pt-4">
+          <p style="font-size: 16px"> <%= @product.description %> </p>
+        </li>
+        <li class="list-group-item p-4">
+          <h4>
+              <%= @product.price %>rs
+          </h4>
+        </li>
+        <% if user_signed_in? %>
+        <li class="list-group-item">
+          <%= render 'shared/addtocart' %>
+        </li>
+        <% else %>
+          <%= render 'shared/login_message' %>
+        <% end %>
+    </ul>
+  </div>
+</div>
+
+<div class="mt-5">
+  <% if user_signed_in? && current_user.admin? %>
+    <%= link_to 'Edit', edit_product_path(@product), class: "btn btn-primary" %>
+    <%= link_to 'Delete', product_path ,method: "delete", class: "btn btn-danger" %>
+  <% end %>
+</div>
+
+<div class="toast">
+  <div class="toast-header">
+    
+  </div>
+  <div class="toast-body">
+    
+  </div>
+</div>
+
+<% if user_signed_in? %>
+<script>
+
+  function updateCartCount(){
+      let count = $("#cartCount")
+      count[0].innerText = parseInt(count[0].innerText) + 1
+  }
+
+  function sendToast(title, message) {
+      console.log(toastTitle, toastBody)
+      let toastTitle = $(".toast-header")
+      toastTitle[0].innerText = title
+      let toastBody = $(".toast-body")
+      toastBody[0].innerText = message
+      $('.toast').toast('show');
+  }
+
+  $(".addCartForm").on('submit', function(e){
+      e.preventDefault();
+      let user_id = $("#user_id").val()
+      let product_id = $("#product_id").val()
+      let quantity = $("#quantity").val()
+      let authenticity_token = $("input[name=authenticity_token]").val()
+      
+      $.ajax({
+        url: '/cart', type: 'POST', dataType: 'json',
+        data: { user_id, product_id, quantity, authenticity_token},
+        success: function() {
+            updateCartCount()
+            sendToast("Item added to cart", "Go to cart page for more details")
+        }
+      })   
+  })
+
+  $(".updateCartForm").on('submit', function(e){
+      e.preventDefault();
+      let user_id = $("#user_id").val()
+      let product_id = $("#product_id").val()
+      let quantity = $("#quantity").val()
+      let authenticity_token = $("input[name=authenticity_token]").val()
+      $.ajax({
+        url: '/cart', type: 'PUT', dataType: 'json',
+        data: { user_id, product_id, quantity, authenticity_token},
+        success: function() {
+            sendToast("Item quantity updated", "Go to cart page for more details")
+        }
+      })     
+  })
+</script>
+<% end %>

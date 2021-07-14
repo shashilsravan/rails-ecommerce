@@ -1,0 +1,30 @@
+<div class="card product-card mx-auto my-3" style="max-width: 640px;">
+  <div class="row g-0">
+    <div class="col-md-3 p-3">
+      <% if product.image.attached? %>
+      <%= image_tag product.image, class: "img-fit" %>
+      <% end %>
+    </div>
+    <div class="col-md-9">
+      <div class="card-body">
+        <h5 class="card-title">
+            <%= link_to product.title, product, class: "notlink" %>
+        </h5>
+        <p class="card-text description">
+            <%= truncate(product.description, length: 170) %>
+        </p>
+        <h5> <%= number_to_currency(product.price, unit: "₹") %> </h5>
+        <% if product.stock < 5 %>
+            <p class="card-text text-danger"> Hurry only few left! </p>
+        <% else %>
+            <p class="card-text text-success"> Available! </p>
+        <% end %>
+        <%= link_to 'View product', product, class: "btn btn-outline-primary mb-2" %>
+        <p class="card-text">
+            <small class="text-muted">Created at
+            <%= time_ago_in_words(product.created_at) %> ago
+        </small></p>
+      </div>
+    </div>
+  </div>
+</div>

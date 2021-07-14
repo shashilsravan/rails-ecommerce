@@ -1,0 +1,39 @@
+<div class="searching-form">
+    <%= form_tag(search_path, :method => "get", class: '') do %>  
+    <div class="input-group">  
+        <%= search_field_tag :search, params[:search],
+             placeholder: "Search for users", class: "form-control" %> 
+    </div>  
+    <% end %>
+</div>
+
+<div class="searchRes my-4">
+    
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        const debounce = (func, delay) => {
+            let debounceTimer
+            return function() {
+                const context = this
+                const args = arguments
+                    clearTimeout(debounceTimer)
+                        debounceTimer
+                    = setTimeout(() => func.apply(context, args), delay)
+            }
+        } 
+        function prompt() {
+            if ($(this).val().trim().length > 0){
+                $.ajax({
+                    url: '/search', 
+                    data: {search: $(this).val()},
+                    success: function(res) {
+                        $(".searchRes").html(res)
+                    }
+                });
+            }
+        }
+        $("#search").keyup(debounce(prompt, 1000));
+    });
+</script>

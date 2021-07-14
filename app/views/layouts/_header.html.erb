@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark" 
+    style="background-color: #EE6360">
+  <div class="container-fluid">
+    <%= link_to 'PC Store', root_path, class: "navbar-brand" %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+            <%= link_to 'Home', root_path, class: "nav-link active" %>
+        </li>
+        <%# admin %>
+        <% if user_signed_in? && current_user.admin? %>
+          <li class="nav-item">
+            <%= link_to '+ New product', new_product_path , 
+              class: "nav-link active" %>
+          </li>
+        <% end %>
+        
+        <% if user_signed_in? %>
+            <li>
+              <%= link_to 'Edit profile', 
+                edit_user_registration_path, class: "nav-link active" %>
+            </li>
+            <li>
+                <%= link_to 'Logout', destroy_user_session_path, method: "delete",
+                class: "nav-link active", data: {confirm: "Are you sure to logout"}  %>
+            </li>
+            <li class="nav-item position-relative">
+                <%= link_to "Cart", cart_path, class: "nav-link active"%>
+                <span class="position-absolute top-0 start-100 translate-middle
+                  mt-2 badge rounded-pill bg-white text-danger" id="cartCount">
+                    <%= Cart.current_user_cart_items(current_user.id).count %>
+                </span>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to 'Signup', new_user_registration_path, class: "nav-link active" %>
+           </li>
+           <li class="nav-item">
+              <%= link_to 'Login', new_user_session_path, class: "nav-link active" %>
+           </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
