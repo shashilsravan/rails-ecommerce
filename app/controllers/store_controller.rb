@@ -11,4 +11,24 @@ class StoreController < ApplicationController
         render :search
     end
   end
+
+  def all
+  end
+
+  def category
+    @products = Product.where(category: params[:name])
+  end
+
+  def filter
+    if params[:catArray].present? and params[:range].present?
+      @products = Product.with_price(params[:range]).with_category(params[:catArray])
+    elsif params[:catArray].present?
+      @products = Product.with_price.with_category(params[:catArray])
+    elsif params[:range].present?
+      @products = Product.with_price(params[:range])
+    else
+      @products = Product.all
+    end
+    render :partial => 'showproducts'
+  end
 end

@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   post '/cart', to: 'cart#create'
   delete '/cart', to: 'cart#destroy'
   put '/cart', to: 'cart#update'
+  get '/allProducts', to: 'store#all'
+  get '/category/:name', to: 'store#category'
+  post '/store', to: 'store#filter'
   devise_for :users
   resources :products
   get '/admin/products', to: 'products#all'

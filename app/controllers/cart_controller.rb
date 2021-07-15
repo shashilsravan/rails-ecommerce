@@ -11,7 +11,6 @@ class CartController < ApplicationController
     @product_id = params[:product_id]
     
     Cart.create(user_id: @user_id, product_id: @product_id, quantity: @quantity)
-    flash[:success] = "Added to cart successfully"
   end
 
   def destroy

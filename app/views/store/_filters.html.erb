@@ -1,0 +1,84 @@
+<div class="row">
+    <div class="col-md-3">
+        <h5> Categories: </h5>
+        <%= form_tag(store_path, :method => "post", 
+            class: 'd-flex flex-wrap categories') do %>
+            <div class="form-check m-1">
+                <%= check_box_tag :mobiles, "mobiles", 
+                    false, class: "form-check-input categoryFilters" %>
+                <%= label_tag :mobiles, 'mobiles', 
+                    class: "form-check-label" %>
+            </div>
+            <div class="form-check m-1">
+                <%= check_box_tag :accessories, "accessories", 
+                    false, class: "form-check-input categoryFilters" %>
+                <%= label_tag :accessories, 'accessories', 
+                    class: "form-check-label" %>
+            </div>
+            <div class="form-check m-1">
+                <%= check_box_tag :clothing, "clothing", 
+                    false, class: "form-check-input categoryFilters" %>
+                <%= label_tag :clothing, 'clothing', 
+                    class: "form-check-label" %>
+            </div>
+            <div class="form-check m-1">
+                <%= check_box_tag :sports, "sports", 
+                    false, class: "form-check-input categoryFilters" %>
+                <%= label_tag :sports, 'sports', 
+                    class: "form-check-label" %>
+            </div>
+            <div class="form-check m-1">
+                <%= check_box_tag :others, "others", 
+                    false, class: "form-check-input categoryFilters" %>
+                <%= label_tag :others, 'Others', 
+                    class: "form-check-label" %>
+            </div>
+            
+        <% end %>
+    </div>
+    <div class="col-md-4">
+        <h5> Price ranges: </h5>
+        <%= form_tag(store_path, :method => "post",
+            class: 'd-flex flex-wrap prices') do %>
+            <div class="form-check m-1">
+                <%= radio_button_tag :pricing, "500", 
+                    false, class: "form-check-input priceFilters" %>
+                <%= label_tag :pricing, '0 - 500', 
+                    class: "form-check-label" %>
+            </div>
+            <div class="form-check m-1">
+                <%= radio_button_tag :pricing, "2000", 
+                    false, class: "form-check-input priceFilters" %>
+                <%= label_tag :pricing, '0 - 2000', 
+                    class: "form-check-label" %>
+            </div>
+            <div class="form-check m-1">
+                <%= radio_button_tag :pricing, "5000", 
+                    false, class: "form-check-input priceFilters" %>
+                <%= label_tag :pricing, '0 - 5000', 
+                    class: "form-check-label" %>
+            </div>
+            <div class="form-check m-1">
+                <%= radio_button_tag :pricing, "10000", 
+                    false, class: "form-check-input priceFilters" %>
+                <%= label_tag :pricing, '0 - 10000', 
+                    class: "form-check-label" %>
+            </div>
+            <div class="form-check m-1">
+                <%= radio_button_tag :pricing, "20000", 
+                    false, class: "form-check-input priceFilters" %>
+                <%= label_tag :pricing, '0 - 20000', 
+                    class: "form-check-label" %>
+            </div>
+            <div class="form-check m-1">
+                <%= radio_button_tag :pricing, "", 
+                    false, class: "form-check-input priceFilters" %>
+                <%= label_tag :pricing, 'Any price', 
+                    class: "form-check-label" %>
+            </div>
+        <% end %>
+    </div>
+    <div class="col-md-4">
+        hello
+    </div>
+</div>

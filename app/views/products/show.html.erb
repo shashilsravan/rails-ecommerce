@@ -20,12 +20,16 @@
           </h4>
         </li>
         <% if user_signed_in? %>
-        <li class="list-group-item">
+        <li class="list-group-item cart-list-item">
           <%= render 'shared/addtocart' %>
         </li>
         <% else %>
           <%= render 'shared/login_message' %>
         <% end %>
+        <li class="list-group-item">
+          <%= link_to"##{@product.category}", "/category/#{@product.category}",
+          class:"category-badge badge rounded-pill bg-primary" %>
+        </li>
     </ul>
   </div>
 </div>
@@ -48,36 +52,23 @@
 
 <% if user_signed_in? %>
 <script>
-
-  function updateCartCount(){
-      let count = $("#cartCount")
-      count[0].innerText = parseInt(count[0].innerText) + 1
-  }
-
-  function sendToast(title, message) {
-      console.log(toastTitle, toastBody)
-      let toastTitle = $(".toast-header")
-      toastTitle[0].innerText = title
-      let toastBody = $(".toast-body")
-      toastBody[0].innerText = message
-      $('.toast').toast('show');
-  }
-
   $(".addCartForm").on('submit', function(e){
       e.preventDefault();
       let user_id = $("#user_id").val()
       let product_id = $("#product_id").val()
       let quantity = $("#quantity").val()
       let authenticity_token = $("input[name=authenticity_token]").val()
-      
+      let cartList = $(".cart-list-item")[0]
+
       $.ajax({
-        url: '/cart', type: 'POST', dataType: 'json',
+        url: '/cart', type: 'POST', dataType: 'html',
         data: { user_id, product_id, quantity, authenticity_token},
         success: function() {
             updateCartCount()
             sendToast("Item added to cart", "Go to cart page for more details")
+            cartList.innerHTML = "<h4 class='text-success'> Added to cart!! </h4>"
         }
-      })   
+      })
   })
 
   $(".updateCartForm").on('submit', function(e){
@@ -86,11 +77,14 @@
       let product_id = $("#product_id").val()
       let quantity = $("#quantity").val()
       let authenticity_token = $("input[name=authenticity_token]").val()
+      let cartList = $(".cart-list-item")[0]
+      
       $.ajax({
-        url: '/cart', type: 'PUT', dataType: 'json',
+        url: '/cart', type: 'PUT',
         data: { user_id, product_id, quantity, authenticity_token},
         success: function() {
             sendToast("Item quantity updated", "Go to cart page for more details")
+            cartList.innerHTML = "<h4 class='text-success'> Updated cart!! </h4>"
         }
       })     
   })

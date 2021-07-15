@@ -20,6 +20,8 @@
             <p class="card-text text-success"> Available! </p>
         <% end %>
         <%= link_to 'View product', product, class: "btn btn-outline-primary mb-2" %>
+        <p> <%= link_to"##{product.category}", "/category/#{product.category}",
+          class:"category-badge badge rounded-pill bg-primary" %> </p>
         <p class="card-text">
             <small class="text-muted">Created at
             <%= time_ago_in_words(product.created_at) %> ago

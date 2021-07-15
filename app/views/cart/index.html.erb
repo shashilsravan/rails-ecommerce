@@ -1,3 +1,4 @@
+<% if @items.count > 0 %>
 <div>
     <h3> Cart items: <%= @items.count %> </h3>
     <hr/>
@@ -14,9 +15,9 @@
                 </strong>
                 <% total += (item.product.price * item.quantity) %>
             </h5>
-            <%= form_with url: "/cart", method: :delete do |f| %>
+            <%= form_with url: "/cart", method: :delete, class: "removeCartForm" do |f| %>
                 <%= f.hidden_field :cart_id, value: item.id %>
-                <%= f.submit "Remove from cart", data: {confirm: "Are you sure to remove it from cart"},
+                <%= f.submit "Remove from cart",
                     class: "btn btn-outline-danger" %>
             <% end %>
             <p class="text-muted mt-2">Added to cart <%= time_ago_in_words(item.created_at) %> ago </p>
@@ -26,3 +27,11 @@
     <h3> Total price: ₹<%= total %>
     </h3>
 </div>
+<% else %>
+<div>
+    <h4> Your cart is empty </h4>
+    <%= link_to 'Keep shopping', root_path %>
+</div>
+<% end %>
+<script type="text/javascript">
+</script>

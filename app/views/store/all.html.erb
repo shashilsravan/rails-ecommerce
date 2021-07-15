@@ -1,0 +1,45 @@
+<div>
+    <%= render 'filters' %>
+    <hr/>
+    <div class="filterResults">
+</div>
+
+<script type="text/javascript">
+    let catArray = []
+    let currentRange = ""
+    $(".categoryFilters").on("click", function() {
+        let authenticity_token = $(".categories input[name=authenticity_token]").val()
+        let currentItem = $(this).val()
+        if ( catArray.includes(currentItem) ){
+            removeFrmArr(catArray, currentItem)
+        }
+        else{
+            catArray.push(currentItem)
+        }
+        $.ajax({
+            url: '/store', type: 'POST', dataType: 'html',
+            data: {catArray, range: currentRange, authenticity_token},
+            success: function(res) {
+                $(".filterResults").html(res)
+            },
+            error: function(res) {
+                console.error(res);
+            }
+        })
+    })
+
+    $(".priceFilters").on("click", function(){
+        let authenticity_token = $(".prices input[name=authenticity_token]").val()
+        currentRange = $(this).val()
+        $.ajax({
+            url: '/store', type: 'POST', dataType: 'html',
+            data: {catArray,range: currentRange, authenticity_token},
+            success: function(res) {
+                $(".filterResults").html(res)
+            },
+            error: function(res) {
+                console.error(res);
+            }
+        })
+    })
+</script>

@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-            <%= link_to 'Home', root_path, class: "nav-link active" %>
+            <%= link_to 'All products', allProducts_path, class: "nav-link active" %>
         </li>
         <%# admin %>
         <% if user_signed_in? && current_user.admin? %>
@@ -18,6 +18,19 @@
           </li>
         <% end %>
         
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Shop by category
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <%= link_to 'Mobiles', '/category/mobiles', class: "dropdown-item" %>
+            <%= link_to 'Gadgets', '/category/accessories', class: "dropdown-item" %>
+            <%= link_to 'Clothing', '/category/clothing', class: "dropdown-item" %>
+            <%= link_to 'Sports', '/category/sports', class: "dropdown-item" %>
+            <%= link_to 'Others', '/category/others', class: "dropdown-item" %>
+          </ul>
+        </li>
+
         <% if user_signed_in? %>
             <li>
               <%= link_to 'Edit profile', 
