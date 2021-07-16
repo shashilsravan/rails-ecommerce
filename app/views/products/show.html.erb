@@ -21,7 +21,11 @@
         </li>
         <% if user_signed_in? %>
         <li class="list-group-item cart-list-item">
-          <%= render 'shared/addtocart' %>
+          <% if @product.stock.eql? 0 %>
+              <%= render 'shared/outofstock' %>
+          <% else %>
+              <%= render 'shared/addtocart' %>
+          <% end %>
         </li>
         <% else %>
           <%= render 'shared/login_message' %>
@@ -41,20 +45,10 @@
   <% end %>
 </div>
 
-<div class="toast">
-  <div class="toast-header">
-    
-  </div>
-  <div class="toast-body">
-    
-  </div>
-</div>
-
 <% if user_signed_in? %>
 <script>
   $(".addCartForm").on('submit', function(e){
       e.preventDefault();
-      let user_id = $("#user_id").val()
       let product_id = $("#product_id").val()
       let quantity = $("#quantity").val()
       let authenticity_token = $("input[name=authenticity_token]").val()
@@ -62,7 +56,7 @@
 
       $.ajax({
         url: '/cart', type: 'POST', dataType: 'html',
-        data: { user_id, product_id, quantity, authenticity_token},
+        data: { product_id, quantity, authenticity_token},
         success: function() {
             updateCartCount()
             sendToast("Item added to cart", "Go to cart page for more details")
@@ -73,7 +67,6 @@
 
   $(".updateCartForm").on('submit', function(e){
       e.preventDefault();
-      let user_id = $("#user_id").val()
       let product_id = $("#product_id").val()
       let quantity = $("#quantity").val()
       let authenticity_token = $("input[name=authenticity_token]").val()
@@ -81,7 +74,7 @@
       
       $.ajax({
         url: '/cart', type: 'PUT',
-        data: { user_id, product_id, quantity, authenticity_token},
+        data: { product_id, quantity, authenticity_token},
         success: function() {
             sendToast("Item quantity updated", "Go to cart page for more details")
             cartList.innerHTML = "<h4 class='text-success'> Updated cart!! </h4>"

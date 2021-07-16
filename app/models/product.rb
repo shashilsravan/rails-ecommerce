@@ -1,6 +1,7 @@
 class Product < ApplicationRecord
-    scope :with_price, ->(price=10000000) { where("price < ?", price)}
+    scope :with_price, ->(price) { where("price < ?", price)}
     scope :with_category, ->(category) { where(category: category)}
+    scope :with_sort, ->(value) { order(value)}
 
     validates :title, presence: true, length: {maximum: 80}, 
         uniqueness: true
@@ -11,4 +12,8 @@ class Product < ApplicationRecord
     }
     has_many :carts, dependent: :destroy
     has_one_attached :image
+
+    def has_stock?
+        return stock > 0
+    end
 end

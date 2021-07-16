@@ -6,9 +6,14 @@ var sendToast = function(title, message) {
     $('.toast').toast('show');
 }
 
-var updateCartCount = function(){
+var updateCartCount = function(decrease){
     let count = $("#cartCount")
-    count[0].innerText = parseInt(count[0].innerText) + 1
+    if (decrease){
+      count[0].innerText = 0
+    }
+    else{
+      count[0].innerText = parseInt(count[0].innerText) + 1
+    }
 }
 
 var removeFrmArr = function(arr, value) {

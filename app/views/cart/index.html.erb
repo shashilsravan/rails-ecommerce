@@ -1,10 +1,16 @@
+<% flag = true %>
 <% if @items.count > 0 %>
-<div>
+<div class="cartContainer">
     <h3> Cart items: <%= @items.count %> </h3>
     <hr/>
-    <% total = 0 %>
     <% @items.each do |item| %>
         <div class="mb-5">
+            <% if not item.product.has_stock? %>
+                <% flag = false %>
+                <p class="text-danger">
+                    The product is not in stock, you cannot checkout
+                </p>
+            <% end %>
             <h4> <%= link_to item.product.title , item.product %> </h4>
             <h6> Quantity: <%= item.quantity %> </h6>
             <h5> 
@@ -13,7 +19,6 @@
                 = <strong> 
                     <%= number_to_currency(item.product.price * item.quantity, unit: "₹") %> 
                 </strong>
-                <% total += (item.product.price * item.quantity) %>
             </h5>
             <%= form_with url: "/cart", method: :delete, class: "removeCartForm" do |f| %>
                 <%= f.hidden_field :cart_id, value: item.id %>
@@ -24,14 +29,38 @@
         </div>
     <% end %>
     <hr/>
-    <h3> Total price: ₹<%= total %>
+    <h3> Total price: ₹<%= Cart.calculateTotal(current_user.id) %>
     </h3>
+    <div class="d-flex">
+        <% if flag %>
+            <%= link_to 'Checkout', cart_checkout_path, 
+                class: "btn btn-success" %> &nbsp; &nbsp;
+        <% end %>
+        <%= form_with url: '/cartAll', method: :delete, class: "removeAllCartForm" do |form| %>
+            <%= form.submit "Empty cart", class: "btn btn-danger", 
+                data: {confirm: "Are you sure to empty your cart"} %>
+        <% end %>
+    </div>
 </div>
 <% else %>
 <div>
-    <h4> Your cart is empty </h4>
-    <%= link_to 'Keep shopping', root_path %>
+    <%= render 'emptycart' %>
 </div>
 <% end %>
 <script type="text/javascript">
+    $(".removeAllCartForm").on('submit', function(e){
+      e.preventDefault();
+      let authenticity_token = $(".removeAllCartForm input[name=authenticity_token]").val()
+      let cartContainer = $(".cartContainer")
+
+      $.ajax({
+        url: '/cartAll', type: 'DELETE', dataType: 'html',
+        data: {authenticity_token},
+        success: function(res) {
+            updateCartCount(true)
+            sendToast("Cleared your cart", "Go to cart page for more details")
+            cartContainer[0].innerHTML = res
+        }
+      })
+  })
 </script>

@@ -83,12 +83,17 @@ label {
 }
 
 .toast{
+  display: none;
   background: white;
   z-index: 9999;
   position: absolute;
   top: 10%;
   width: 80vw;
 }
+.toast.show{
+  display: inline;
+}
+
 .category-badge{
   background: greenyellow !important;
   color: black !important;

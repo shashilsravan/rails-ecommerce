@@ -1,0 +1,10 @@
+<% if @order.payment? %>
+    <div class="alert alert-success" role="alert">
+        You payed for this order at <%= time_ago_in_words(@order.payed_at) %> ago
+    </div>
+    <button class="mt-2 btn btn-outline-primary w-100"> Generate invoice </button>
+<% else %>
+    <%= form_with url: "/orders/myorders/#{@order.id}", method: :put, class: "paymentForm" do |form| %>
+        <%= form.submit "Make payment", class: "btn btn-outline-dark w-100" %>
+    <% end %>
+<% end %>

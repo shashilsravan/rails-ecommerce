@@ -14,8 +14,10 @@
             <%= truncate(product.description, length: 170) %>
         </p>
         <h5> <%= number_to_currency(product.price, unit: "₹") %> </h5>
-        <% if product.stock < 5 %>
-            <p class="card-text text-danger"> Hurry only few left! </p>
+        <% if product.stock == 0%>
+            <p class="card-text text-danger"> Out of stock !!! </p>
+        <% elsif product.stock < 5 %>
+            <p class="card-text text-warning"> Hurry only few left! </p>
         <% else %>
             <p class="card-text text-success"> Available! </p>
         <% end %>

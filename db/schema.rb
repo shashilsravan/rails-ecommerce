@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_14_071829) do
+ActiveRecord::Schema.define(version: 2021_07_16_085131) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -40,6 +40,16 @@ ActiveRecord::Schema.define(version: 2021_07_14_071829) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "addresses", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "phone"
+    t.string "email"
+    t.string "zipcode"
+    t.text "location"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "carts", force: :cascade do |t|
     t.integer "user_id"
     t.integer "product_id"
@@ -50,6 +60,19 @@ ActiveRecord::Schema.define(version: 2021_07_14_071829) do
     t.index ["user_id", "created_at"], name: "index_carts_on_user_id_and_created_at"
     t.index ["user_id", "product_id"], name: "index_carts_on_user_id_and_product_id", unique: true
     t.index ["user_id"], name: "index_carts_on_user_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "order_data"
+    t.string "deliver_address"
+    t.boolean "payment"
+    t.datetime "payed_at"
+    t.boolean "delivered"
+    t.datetime "delivered_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "total_price"
   end
 
   create_table "products", force: :cascade do |t|
@@ -72,7 +95,9 @@ ActiveRecord::Schema.define(version: 2021_07_14_071829) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "admin", default: false
     t.string "name", default: "John Doe"
+    t.string "phone_number"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["name"], name: "index_users_on_name", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

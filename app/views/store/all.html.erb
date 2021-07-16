@@ -2,11 +2,20 @@
     <%= render 'filters' %>
     <hr/>
     <div class="filterResults">
+        <div class="d-flex justify-content-center pt-3">
+            <%== pagy_bootstrap_nav(@pagy) %>
+        </div>
+        <%= render @products %>
+        <div class="d-flex justify-content-center pt-3">
+            <%== pagy_bootstrap_nav(@pagy) %>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
     let catArray = []
     let currentRange = ""
+    let currentSort = ""
     $(".categoryFilters").on("click", function() {
         let authenticity_token = $(".categories input[name=authenticity_token]").val()
         let currentItem = $(this).val()
@@ -18,7 +27,8 @@
         }
         $.ajax({
             url: '/store', type: 'POST', dataType: 'html',
-            data: {catArray, range: currentRange, authenticity_token},
+            data: {catArray, range: currentRange, authenticity_token, 
+            sorting: currentSort},
             success: function(res) {
                 $(".filterResults").html(res)
             },
@@ -33,11 +43,29 @@
         currentRange = $(this).val()
         $.ajax({
             url: '/store', type: 'POST', dataType: 'html',
-            data: {catArray,range: currentRange, authenticity_token},
+            data: {catArray,range: currentRange, 
+                authenticity_token, sorting: currentSort},
             success: function(res) {
                 $(".filterResults").html(res)
             },
             error: function(res) {
+                console.error(res);
+            }
+        })
+    })
+
+    $(".sortFilters").on("click", function(){
+        let authenticity_token = $(".sortings input[name=authenticity_token]").val()
+        currentSort = $(this).val()
+        $.ajax({
+            url: '/store', type: 'POST', dataType: 'html',
+            data: {catArray,range: currentRange, authenticity_token, 
+            sorting: currentSort},
+            success: function(res) {
+                $(".filterResults").html(res)
+            },
+            error: function(res) {
+                console.log(res);
                 console.error(res);
             }
         })

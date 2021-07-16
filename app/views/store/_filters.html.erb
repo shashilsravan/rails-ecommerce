@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-3">
-        <h5> Categories: </h5>
+        <h5 class="fw-bolder fst-italic"> Categories: </h5>
         <%= form_tag(store_path, :method => "post", 
             class: 'd-flex flex-wrap categories') do %>
             <div class="form-check m-1">
@@ -37,7 +37,7 @@
         <% end %>
     </div>
     <div class="col-md-4">
-        <h5> Price ranges: </h5>
+        <h5 class="fw-bolder fst-italic"> Price ranges: </h5>
         <%= form_tag(store_path, :method => "post",
             class: 'd-flex flex-wrap prices') do %>
             <div class="form-check m-1">
@@ -78,7 +78,34 @@
             </div>
         <% end %>
     </div>
-    <div class="col-md-4">
-        hello
+    <div class="col-md-5">
+        <h5 class="fw-bolder fst-italic"> Sort by: </h5>
+        <%= form_tag(store_path, :method => "post",
+            class: 'd-flex flex-wrap sortings') do %>
+            <div class="form-check m-1">
+                <%= radio_button_tag :sorting, "title", 
+                    false, class: "form-check-input sortFilters" %>
+                <%= label_tag :sorting, 'Sort by name (ASC)', 
+                    class: "form-check-label" %>
+            </div>
+            <div class="form-check m-1">
+                <%= radio_button_tag :sorting, "title DESC", 
+                    false, class: "form-check-input sortFilters" %>
+                <%= label_tag :sorting, 'Sort by name (DESC)', 
+                    class: "form-check-label" %>
+            </div>
+            <div class="form-check m-1">
+                <%= radio_button_tag :sorting, "price", 
+                    false, class: "form-check-input sortFilters" %>
+                <%= label_tag :sorting, 'Sort by price (ASC)', 
+                    class: "form-check-label" %>
+            </div>
+            <div class="form-check m-1">
+                <%= radio_button_tag :sorting, "price DESC", 
+                    false, class: "form-check-input sortFilters" %>
+                <%= label_tag :sorting, 'Sort by price (DESC)', 
+                    class: "form-check-label" %>
+            </div>
+        <% end %>
     </div>
 </div>

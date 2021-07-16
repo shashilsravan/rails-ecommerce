@@ -12,7 +12,9 @@ class StoreController < ApplicationController
     end
   end
 
+  # .order("price DESC")
   def all
+    @pagy, @products = pagy(Product.all, items: 5)
   end
 
   def category
@@ -20,14 +22,12 @@ class StoreController < ApplicationController
   end
 
   def filter
-    if params[:catArray].present? and params[:range].present?
-      @products = Product.with_price(params[:range]).with_category(params[:catArray])
-    elsif params[:catArray].present?
-      @products = Product.with_price.with_category(params[:catArray])
-    elsif params[:range].present?
-      @products = Product.with_price(params[:range])
-    else
-      @products = Product.all
+    sortingParams = params[:sorting].present? ? params[:sorting] : "title"
+    priceParams = params[:range].present? ? params[:range] : 10000000
+    if params[:catArray].present?
+      @pagy, @products = pagy(Product.with_sort(sortingParams).with_price(priceParams).with_category(params[:catArray]), items: 5)
+    else 
+      @pagy, @products = pagy(Product.with_sort(sortingParams).with_price(priceParams), items: 5)
     end
     render :partial => 'showproducts'
   end

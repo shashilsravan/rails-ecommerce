@@ -1,0 +1,37 @@
+<div class="mt-5">
+    <h3>
+        <%= link_to "Cart items: #{@items.count}", cart_path %>
+    </h3>
+    <% @items.each do |item| %>
+        <p class="text-muted">(<%= item.product.title %>) * <%= item.quantity %></p>
+    <% end %>
+    <hr />
+    <div>
+        <h4> Fill in your delivery address: </h4>
+        <%= form_with url: '/address', method: :post, class: "addressForm" do |form| %>
+            <div class="field py-2">
+                <%= form.label :email, class: "form-label" %>
+                <%= form.email_field :email, value: current_user.email,
+                     class: "form-control", placeholder: "Email id" %>
+            </div>
+            <div class="field py-2">
+                <%= form.label :phone, class: "form-label" %>
+                <%= form.telephone_field :phone, value: current_user.phone_number,
+                    class: "form-control", placeholder: "Phone number" %>
+            </div>
+            <div class="field py-2">
+                <%= form.label :location, class: "form-label" %>
+                <%= form.text_area :location, value: current_user.address ? current_user.address.location : "",
+                class: "form-control", rows: 6,placeholder: "Enter location clearly" %>
+            </div>
+            <div class="field py-2">
+                <%= form.label :zipcode, class: "form-label" %>
+                <%= form.text_field :zipcode, value: current_user.address ? current_user.address.zipcode : "", 
+                class: "form-control", placeholder: "zip code" %>
+            </div>
+            <div class="actions">
+                <%= form.submit "Submit", class: "btn btn-info" %>
+            </div>
+        <% end %>
+    </div>
+</div>

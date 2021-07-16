@@ -1,0 +1,53 @@
+<div>
+    <h4 class="text-center text-primary">
+        |- Placing your order -|
+    </h4>
+    <div class="row mt-4">
+        <div class="col-md-5 my-2">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <h4> Delivery Address: </h4>
+                </li>
+                <li class="list-group-item">
+                    <h6> Phone: <%= @address.phone %> </h6>
+                </li>
+                <li class="list-group-item">
+                    <h6> Email: <%= @address.email %> </h6>
+                </li>
+                <li class="list-group-item">
+                    <h6> Zip code: <%= @address.zipcode %> </h6>
+                </li>
+                <li class="list-group-item">
+                    <h6> Address: <%= @address.location %> </h6>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="col-md-6 my-2">
+             <ul class="list-group">
+                <li class="list-group-item">
+                    <h4> Cart Items: </h4>
+                </li>
+                <% @items.each do |item| %>
+                    <li class="list-group-item">
+                        <h6> Ordering: <%= item.product.title %> </h6>
+                        <p class="text-muted">
+                            Price breakup: <%= "#{item.product.price} * #{item.quantity}" %>
+                        </p>
+                    </li>
+                <% end %>
+                <li class="list-group-item">
+                    <h5> Total price: <%= Cart.calculateTotal(current_user.id) %> </h5>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <%= form_with url: '/orders', method: :post, class: "placeOrderForm" do |form| %>
+            <%= form.submit 'Place order', 
+            class: 'btn btn-outline-success w-100',
+            data: {confirm: "Are you sure to place your order"} %>
+        <% end %>
+    </div>
+</div>
