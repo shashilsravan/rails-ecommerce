@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get '/admin/products', to: 'products#all'
   root 'store#index'
   get '/search', to: 'store#search'
+  get '/orders', to: 'order#index'
   post '/orders', to: 'order#create'
   get '/orders/myorders/:id', to: 'order#show', as: 'order_details'
   put '/orders/myorders/:id', to: 'order#payment'

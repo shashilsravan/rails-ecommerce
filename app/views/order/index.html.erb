@@ -1,0 +1,22 @@
+<% @orders.each do |order| %>
+    <div class="card my-3">
+        <div class="card-body">
+            <h5 class="card-title">
+                <%= "Ordered #{order.order_data.count} items - #{time_ago_in_words(order.created_at)} ago" %>
+            </h5>
+            <div>
+                Ordered items:
+                <% for each in order.order_data %>
+                    <p class="text-muted m-0">
+                        <%= each[:title] %>
+                    </p>
+                <% end %>
+            </div>
+            <p class="card-text mt-3">
+                Payment: <%= order.payment ? "Done ✓✓✓" : "Pending" %> <br />
+                Delivered: <%= order.delivered ? "Order delivered ✓✓✓" : "Not delivered" %>
+            </p>
+            <%= link_to 'View order', order_details_path(order.id), class: "btn btn-primary" %>
+        </div>
+    </div>
+<% end %>
