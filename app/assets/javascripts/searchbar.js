@@ -22,4 +22,4 @@ var removeFrmArr = function(arr, value) {
       arr.splice(index, 1);
     }
     return arr;
-  }
+}

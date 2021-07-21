@@ -1,0 +1,10 @@
+<% if @order.delivered? %>
+    <div class="alert alert-success" role="alert">
+        Your order delivered  <%= time_ago_in_words(@order.delivered_at) %> ago
+    </div>
+<% end %>
+<% if current_user.admin? and not @order.delivered? %>
+    <%= form_with url: "/orders/myorders/#{@order.id}/deliver", method: :put, class: "deliverForm" do |form| %>
+        <%= form.submit "Mark as delivered", class: "btn btn-outline-success w-100" %>
+    <% end %>
+<% end %>

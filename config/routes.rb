@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   get '/search', to: 'store#search'
   get '/orders', to: 'order#index'
   post '/orders', to: 'order#create'
+  get '/orders/all', to: 'order#all'
   get '/orders/myorders/:id', to: 'order#show', as: 'order_details'
-  put '/orders/myorders/:id', to: 'order#payment'
+  put '/orders/myorders/:id/payment', to: 'order#payment'
+  put '/orders/myorders/:id/deliver', to: 'order#delivered'
 end

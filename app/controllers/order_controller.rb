@@ -1,9 +1,17 @@
 class OrderController < ApplicationController
-    before_action :set_order, only: [:show, :edit]
+    before_action :set_order, only: [:show, :edit, :payment, :delivered]
     before_action :check_loggedin
 
+    def all
+        if current_user.admin?
+            @pagy, @orders = pagy(Order.all.order(created_at: :desc), items: 6)
+        else
+            redirect_to orders_path
+        end
+    end
+
     def index
-        @orders = Order.where(user_id: current_user.id)
+        @orders = Order.where(user_id: current_user.id).order(created_at: :desc)
     end
 
     def create
@@ -36,25 +44,40 @@ class OrderController < ApplicationController
     end
 
     def show
+        respond_to do |format|
+            format.html
+            format.pdf do
+                render pdf: "Order #{@order.id}", template: "order/invoice.html.erb"
+            end
+        end
     end
 
     def payment
-        id = params[:id]
-        order = Order.find(id)
-        if order.user_id != current_user.id
+        if @order.user_id != current_user.id
             flash[:now] = "Action prohbitied"
             redirect_to root_path
         end
-        order.payment = true
-        order.payed_at = Time.now()
-        order.save
-        redirect_to order_details_path(order)
+        @order.payment = true
+        @order.payed_at = Time.now()
+        @order.save
+        redirect_to order_details_path(@order)
+    end
+
+    def delivered
+        if not current_user.admin?
+            flash[:now] = "Action prohbitied"
+            redirect_to root_path
+        end
+        @order.delivered = true
+        @order.delivered_at = Time.now()
+        @order.save
+        redirect_to order_details_path(@order)
     end
 
     private
         def set_order
             @order = Order.find(params[:id])
-            if @order.user_id != current_user.id 
+            if @order.user_id != current_user.id and not current_user.admin?
                 flash[:now] = "Action prohbitied"
                 redirect_to orders_path
             end

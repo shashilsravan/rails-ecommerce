@@ -1,10 +1,12 @@
 <% if @order.payment? %>
-    <div class="alert alert-success" role="alert">
+    <div class="alert alert-warning" role="alert">
         You payed for this order at <%= time_ago_in_words(@order.payed_at) %> ago
     </div>
-    <button class="mt-2 btn btn-outline-primary w-100"> Generate invoice </button>
+    <%= link_to 'Generate invoice', 
+    order_details_path(format: :pdf),
+    class: "mt-2 btn btn-outline-primary w-100", target: :_blank %>
 <% else %>
-    <%= form_with url: "/orders/myorders/#{@order.id}", method: :put, class: "paymentForm" do |form| %>
+    <%= form_with url: "/orders/myorders/#{@order.id}/payment", method: :put, class: "paymentForm" do |form| %>
         <%= form.submit "Make payment", class: "btn btn-outline-dark w-100" %>
     <% end %>
 <% end %>
