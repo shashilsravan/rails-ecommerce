@@ -1,6 +1,6 @@
 class StoreController < ApplicationController
   def index
-    @products = Product.order(:title)
+    @products = Product.order(created_at: :desc).limit(6)
   end
 
   def search

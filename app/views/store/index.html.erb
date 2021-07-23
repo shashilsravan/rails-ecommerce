@@ -1,4 +1,4 @@
-<div>
+<div class="py-4">
     <h2> Welcome to PC Store </h2>
     <hr />
     <div class="top-flex">
@@ -6,13 +6,42 @@
             <%= link_to 'Search for users', search_path %>
         </h5>
     </div>
-    <div>
-        <%= render @products %>
+    <h3> Recently launched </h3>
+    <div class="my-3 owl-carousel">
+        <% @products.each do |product| %>
+            <div class="card" style="width: 17rem;">
+                <%= image_tag product.image, class: 'p-3',
+                style: 'height:300px' %>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= truncate(product.title, length: 40) %>
+                    </h5>
+                    <p class="card-text">
+                        <%= truncate(product.description, length: 90) %>
+                    </p>
+                    <h5 class="card-text"><b> <%= product.price %> </b></h5>
+                    <%= link_to 'View product', product, class: "btn btn-outline-dark" %>
+                </div>
+            </div>
+        <% end %>
     </div>
 </div>
 
-<script type="text/javascript">
-    $(".filters-select").on('change', function () {
-        console.log(this.value)
+<script>
+    $(".owl-carousel").owlCarousel({
+        loop: false,
+        rewind: true, autoplay: true, autoplayTimeout: 3000,
+        responsive:{
+            0: {
+                items:1,
+                stagePadding: 30
+            },
+            600: {
+                items:3
+            },
+            1024: {
+                items: 4
+            }
+        }
     })
 </script>

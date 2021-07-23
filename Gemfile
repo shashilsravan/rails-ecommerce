@@ -25,6 +25,7 @@ gem 'devise', '~> 4.8'
 gem 'pagy', '~> 3.5'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+gem 'owlcarousel-rails'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
