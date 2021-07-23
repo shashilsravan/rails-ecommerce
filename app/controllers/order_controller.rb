@@ -1,5 +1,5 @@
 class OrderController < ApplicationController
-    before_action :set_order, only: [:show, :edit, :payment, :delivered]
+    before_action :set_order, only: [:show, :edit, :payment, :delivered, :destroy]
     before_action :check_loggedin
 
     def all
@@ -52,6 +52,12 @@ class OrderController < ApplicationController
         end
     end
 
+    def destroy
+        @order.destroy
+        flash[:now] = "Order is deleted"
+        redirect_to orders_path
+    end
+
     def payment
         if @order.user_id != current_user.id
             flash[:now] = "Action prohbitied"
@@ -72,6 +78,11 @@ class OrderController < ApplicationController
         @order.delivered_at = Time.now()
         @order.save
         redirect_to order_details_path(@order)
+    end
+
+    def return
+        flash[:now] = "Return status proceeded"
+        redirect_to orders_path
     end
 
     private

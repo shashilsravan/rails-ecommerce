@@ -45,7 +45,19 @@
         </div>
     </div>
 
-    <div class="deliver-section mt-4">
+    <div class="my-4">
+        <% if @order.payment? %>
+            <%= form_with url: "/orders/myorders/#{@order.id}/return", 
+                method: :post do |form| %>
+                <%= form.submit "Return/Refend order", class: "btn btn-outline-danger w-100" %>
+            <% end %>
+        <% else %>
+            <%= form_with url: "/orders/myorders/#{@order.id}", method: :delete do |form| %>
+                <%= form.submit "Cancel order", class: "btn btn-outline-danger w-100" %>
+            <% end %>
+        <% end %>
+    </div>
+    <div class="deliver-section my-4">
         <%= render 'deliver_button' %>
     </div>
 

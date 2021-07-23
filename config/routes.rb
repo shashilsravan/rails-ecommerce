@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   post '/orders', to: 'order#create'
   get '/orders/all', to: 'order#all'
   get '/orders/myorders/:id', to: 'order#show', as: 'order_details'
+  delete '/orders/myorders/:id', to: 'order#destroy'
+  post '/orders/myorders/:id/return', to: 'order#return'
   put '/orders/myorders/:id/payment', to: 'order#payment'
   put '/orders/myorders/:id/deliver', to: 'order#delivered'
 end
